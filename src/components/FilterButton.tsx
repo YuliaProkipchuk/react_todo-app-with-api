@@ -9,6 +9,11 @@ type Props = {
   onChangeFilter: (newFilter: Filters) => void;
 };
 function FilterButton({ link, isActive, name, value, onChangeFilter }: Props) {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    onChangeFilter(value);
+  };
+
   return (
     <a
       href={link}
@@ -16,7 +21,7 @@ function FilterButton({ link, isActive, name, value, onChangeFilter }: Props) {
         selected: isActive,
       })}
       data-cy={name}
-      onClick={() => onChangeFilter(value)}
+      onClick={handleClick}
     >
       {value}
     </a>

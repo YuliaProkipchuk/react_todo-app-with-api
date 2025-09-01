@@ -27,6 +27,20 @@ function TodoItem({
     setIsEditing(true);
   }
 
+  async function handleDelete() {
+    onSetLoading([todo.id]);
+    try {
+      const { id } = todo;
+
+      await deleteTodo(id);
+      onDelete(id);
+    } catch (error) {
+      onError(Errors.DeleteTodo);
+    } finally {
+      onSetLoading([]);
+    }
+  }
+
   async function handleUpdateTitle(id: number, newTitle: string) {
     const preparedTitle = newTitle.trim();
     if (newTitle === todo.title) {
@@ -48,20 +62,6 @@ function TodoItem({
       } finally {
         onSetLoading([]);
       }
-    }
-  }
-
-  async function handleDelete() {
-    onSetLoading([todo.id]);
-    try {
-      const { id } = todo;
-
-      await deleteTodo(id);
-      onDelete(id);
-    } catch (error) {
-      onError(Errors.DeleteTodo);
-    } finally {
-      onSetLoading([]);
     }
   }
 
