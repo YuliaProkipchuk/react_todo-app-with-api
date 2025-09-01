@@ -27,14 +27,6 @@ function TodoItem({
     setIsEditing(true);
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const newTitle = formData.get('title') as string;
-    const { id } = todo;
-    await handleUpdateTitle(id, newTitle);
-  }
-
   async function handleUpdateTitle(id: number, newTitle: string) {
     const preparedTitle = newTitle.trim();
     if (newTitle === todo.title) {
@@ -58,6 +50,7 @@ function TodoItem({
       }
     }
   }
+
   async function handleDelete() {
     onSetLoading([todo.id]);
     try {
@@ -71,8 +64,16 @@ function TodoItem({
       onSetLoading([]);
     }
   }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const newTitle = formData.get('title') as string;
+    const { id } = todo;
+    await handleUpdateTitle(id, newTitle);
+  }
+
   async function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-    console.log(e.target.value);
     const newTitle = e.target.value;
     const { id } = todo;
     await handleUpdateTitle(id, newTitle);
@@ -80,7 +81,6 @@ function TodoItem({
 
   async function handleToggle(event: React.ChangeEvent<HTMLInputElement>) {
     const checked = event.target.checked;
-    console.log(checked);
 
     try {
       onSetLoading([todo.id]);
